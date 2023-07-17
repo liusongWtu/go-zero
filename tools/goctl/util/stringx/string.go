@@ -82,6 +82,14 @@ func (s String) ToSnake() string {
 	return strings.Join(target, "_")
 }
 
+// ToKebab converts the input text into kebab case
+func (s String) ToKebab() string {
+	list := s.splitBy(func(r rune) bool {
+		return r == '_'
+	}, true)
+	return strings.Join(list, "-")
+}
+
 // Untitle return the original string if rune is not letter at index 0
 func (s String) Untitle() string {
 	if s.IsEmptyOrSpace() {

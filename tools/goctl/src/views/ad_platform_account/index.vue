@@ -1,10 +1,10 @@
 <template>
-    <{{.kebabObject}}-editor-form
+    <ad-platform-account-editor-form
         v-loading="loading"
         ref="refEditorForm"
         mode="page"
         :is-edit="true"
-        :{{.lowerStartCamelObject}}="{{.lowerStartCamelObject}}Item"
+        :adPlatformAccount="adPlatformAccountItem"
         @submit="onSubmit"
     />
 </template>
@@ -14,35 +14,35 @@
     import { useRoute } from 'vue-router';
     import { useI18n } from 'vue-i18n';
 
-    import { {{.upperStartCamelObject}}EditorForm, type {{.upperStartCamelObject}}EditorFormInstance } from './form';
+    import { AdPlatformAccountEditorForm, type AdPlatformAccountEditorFormInstance } from './form';
 
-    import { fetch{{.upperStartCamelObject}}Item, fetchUpdate{{.upperStartCamelObject}}, type {{.upperStartCamelObject}}Item, type ItemReq } from '@/api/{{.kebabObject}}';
+    import { fetchAdPlatformAccountItem, fetchUpdateAdPlatformAccount, type AdPlatformAccountItem, type ItemReq } from '@/api/ad-platform-account';
 
     import { message } from '@/utils/message';
 
-    defineOptions({ name: '{{.upperStartCamelObject}}EditorPage' });
+    defineOptions({ name: 'AdPlatformAccountEditorPage' });
 
-    const refEditorForm = ref<{{.upperStartCamelObject}}EditorFormInstance>(null);
+    const refEditorForm = ref<AdPlatformAccountEditorFormInstance>(null);
 
     const { t } = useI18n();
     const route = useRoute();
 
-    const {{.lowerStartCamelObject}}Id = computed(() => Number(route.params.id));
+    const adPlatformAccountId = computed(() => Number(route.params.id));
 
     const loading = ref<boolean>(false);
-    const {{.lowerStartCamelObject}}Item = ref<{{.upperStartCamelObject}}Item>({});
+    const adPlatformAccountItem = ref<AdPlatformAccountItem>({});
 
     const controller = new AbortController();
 
-    const load{{.upperStartCamelObject}}ItemData = (id: number) => {
+    const loadAdPlatformAccountItemData = (id: number) => {
         if (loading.value) controller.abort();
 
         loading.value = true;
         const data: ItemReq = { id };
-        fetch{{.upperStartCamelObject}}Item({ data, signal: controller.signal })
+        fetchAdPlatformAccountItem({ data, signal: controller.signal })
             .then(
                 res => {
-                    {{.lowerStartCamelObject}}Item.value = res.data;
+                    adPlatformAccountItem.value = res.data;
                 },
                 err => {
                     if (!err?.isCancelRequest) {
@@ -55,7 +55,7 @@
             });
     };
 
-    onMounted(() => load{{.upperStartCamelObject}}ItemData({{.lowerStartCamelObject}}Id.value));
+    onMounted(() => loadAdPlatformAccountItemData(adPlatformAccountId.value));
 
     onUnmounted(() => {
         if (loading.value) {
@@ -72,9 +72,9 @@
         });
     };
 
-    const doUpdate{{.upperStartCamelObject}} = (info: {{.upperStartCamelObject}}Item) => {
+    const doUpdateAdPlatformAccount = (info: AdPlatformAccountItem) => {
         const data = {
-            id: {{.lowerStartCamelObject}}Id.value,
+            id: adPlatformAccountId.value,
             name: info.name,
             data: info.data,
             code: info.code,
@@ -85,7 +85,7 @@
             remark: info.remark,
             status: info.status
         };
-        fetchUpdate{{.upperStartCamelObject}}({ data }).then(
+        fetchUpdateAdPlatformAccount({ data }).then(
             () => {
                 message(t('common.changeStatusMessage', { action: t('common.update'), content: info.name }), {
                     type: 'success'

@@ -33,6 +33,12 @@ func MkdirIfNotExist(dir string) error {
 	return nil
 }
 
+// MkdirIfNotExistByFile makes directories if the input file path is not exists
+func MkdirIfNotExistByFile(filename string) error {
+	dir := filepath.Dir(filename)
+	return MkdirIfNotExist(dir)
+}
+
 // PathFromGoSrc returns the path without slash where has been trim the prefix $GOPATH
 func PathFromGoSrc() (string, error) {
 	dir, err := os.Getwd()

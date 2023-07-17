@@ -5,8 +5,8 @@ import { CommonStatus } from '@/defines';
 import { type ListReq } from '@/api/config';
 import { getStringDate, getTimeFromStringDateTime } from '@/utils/timeUtils';
 
-const STORE_ID = '{{.upperStartCamelObject}}-page-options';
-const LOCAL_NAME = '{{.upperStartCamelObject}}-pageOpts';
+const STORE_ID = '{{.kebabObject}}-page-options';
+const LOCAL_NAME = '{{.kebabObject}}-pageOpts';
 
 export interface SearchOptions {
     startTime?: number;
