@@ -20,3 +20,9 @@ var StorePinia string
 
 //go:embed tpl/editor_index_vue.tpl
 var EditorIndexVue string
+
+//go:embed tpl/locales_item_field.tpl
+var LocalesItemField string
+
+//go:embed tpl/locales.tpl
+var Locales string

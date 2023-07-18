@@ -88,18 +88,18 @@ func fromMysqlDataSourceGenVue(arg dataSourceArg) error {
 	db := sqlx.NewMysql(databaseSource)
 	im := model.NewInformationSchemaModel(db)
 
-	tables, err := im.GetAllTables(dsn.DBName)
+	tables, err := im.GetAllTableWithComment(dsn.DBName)
 	if err != nil {
 		return err
 	}
 
 	matchTables := make(map[string]*model.Table)
 	for _, item := range tables {
-		if !arg.tablePat.Match(item) {
+		if !arg.tablePat.Match(item.Table) {
 			continue
 		}
 
-		columnData, err := im.FindColumns(dsn.DBName, item)
+		columnData, err := im.FindColumns(dsn.DBName, item.Table)
 		if err != nil {
 			return err
 		}
@@ -108,8 +108,9 @@ func fromMysqlDataSourceGenVue(arg dataSourceArg) error {
 		if err != nil {
 			return err
 		}
+		table.TableComment = item.TableComment
 
-		matchTables[item] = table
+		matchTables[item.Table] = table
 	}
 
 	if len(matchTables) == 0 {

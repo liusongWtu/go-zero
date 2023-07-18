@@ -49,9 +49,7 @@ type (
 	}
 
 	codeTuple struct {
-		apiCode            codeFile
-		storePiniaCode     codeFile
-		editorIndexVueCode codeFile
+		codes []codeFile
 	}
 )
 
@@ -139,11 +137,17 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 			return err
 		}
 
-		m[table.Name.Source()] = &codeTuple{
-			apiCode:            requestApiCode,
-			storePiniaCode:     storePiniaCode,
-			editorIndexVueCode: editorIndexVueCode,
+		localesCode, err := g.genLocales(*table)
+		if err != nil {
+			return err
 		}
+
+		m[table.Name.Source()] = &codeTuple{
+			codes: []codeFile{requestApiCode,
+				storePiniaCode,
+				editorIndexVueCode,
+				localesCode,
+			}}
 	}
 
 	return g.createFile(m)
@@ -163,36 +167,17 @@ func (g *defaultGenerator) createFile(modelList map[string]*codeTuple) error {
 	}
 
 	for _, codes := range modelList {
-		filename := filepath.Join(dirAbs, codes.apiCode.filename)
-		err := pathx.MkdirIfNotExistByFile(filename)
-		if err != nil {
-			return err
+		for _, code := range codes.codes {
+			filename := filepath.Join(dirAbs, code.filename)
+			err := pathx.MkdirIfNotExistByFile(filename)
+			if err != nil {
+				return err
+			}
+			err = os.WriteFile(filename, []byte(code.content), os.ModePerm)
+			if err != nil {
+				return err
+			}
 		}
-		err = os.WriteFile(filename, []byte(codes.apiCode.content), os.ModePerm)
-		if err != nil {
-			return err
-		}
-
-		filename = filepath.Join(dirAbs, codes.storePiniaCode.filename)
-		err = pathx.MkdirIfNotExistByFile(filename)
-		if err != nil {
-			return err
-		}
-		err = os.WriteFile(filename, []byte(codes.storePiniaCode.content), os.ModePerm)
-		if err != nil {
-			return err
-		}
-
-		filename = filepath.Join(dirAbs, codes.editorIndexVueCode.filename)
-		err = pathx.MkdirIfNotExistByFile(filename)
-		if err != nil {
-			return err
-		}
-		err = os.WriteFile(filename, []byte(codes.editorIndexVueCode.content), os.ModePerm)
-		if err != nil {
-			return err
-		}
-
 	}
 
 	g.Success("Done.")

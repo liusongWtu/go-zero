@@ -1,1 +1,0 @@
-    {{.name}}: {{if .hasComment}} {{.comment}}{{}}{{end}} 

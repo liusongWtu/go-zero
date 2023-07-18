@@ -50,13 +50,14 @@ type (
 
 	// Table describes mysql table which contains database name, table name, columns, keys
 	Table struct {
-		Db      string
-		Table   string
-		Columns []*Column
+		Db           string    `db:"-"`
+		Table        string    `db:"TABLE_NAME"`
+		TableComment string    `db:"TABLE_COMMENT"`
+		Columns      []*Column `db:"-"`
 		// Primary key not included
-		UniqueIndex map[string][]*Column
-		PrimaryKey  *Column
-		NormalIndex map[string][]*Column
+		UniqueIndex map[string][]*Column `db:"-"`
+		PrimaryKey  *Column              `db:"-"`
+		NormalIndex map[string][]*Column `db:"-"`
 	}
 
 	// IndexType describes an alias of string
@@ -79,6 +80,17 @@ func (m *InformationSchemaModel) GetAllTables(database string) ([]string, error)
 	query := `select TABLE_NAME from TABLES where TABLE_SCHEMA = ?`
 	var tables []string
 	err := m.conn.QueryRows(&tables, query, database)
+	if err != nil {
+		return nil, err
+	}
+
+	return tables, nil
+}
+
+func (m *InformationSchemaModel) GetAllTableWithComment(database string) ([]Table, error) {
+	query := `select TABLE_NAME,TABLE_COMMENT from TABLES where TABLE_SCHEMA = ?`
+	var tables []Table
+	err := m.conn.QueryRowsPartial(&tables, query, database)
 	if err != nil {
 		return nil, err
 	}

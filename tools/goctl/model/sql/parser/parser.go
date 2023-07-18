@@ -21,12 +21,13 @@ const timeImport = "time.Time"
 type (
 	// Table describes a mysql table
 	Table struct {
-		Name        stringx.String
-		Db          stringx.String
-		PrimaryKey  Primary
-		UniqueIndex map[string][]*Field
-		Fields      []*Field
-		ContainsPQ  bool
+		Name         stringx.String
+		TableComment stringx.String
+		Db           stringx.String
+		PrimaryKey   Primary
+		UniqueIndex  map[string][]*Field
+		Fields       []*Field
+		ContainsPQ   bool
 	}
 
 	// Primary describes a primary key
@@ -279,6 +280,7 @@ func ConvertDataType(table *model.Table, strict bool) (*Table, error) {
 	reply.ContainsPQ = containsPQ
 	reply.UniqueIndex = map[string][]*Field{}
 	reply.Name = stringx.From(table.Table)
+	reply.TableComment = stringx.From(table.TableComment)
 	reply.Db = stringx.From(table.Db)
 	seqInIndex := 0
 	if table.PrimaryKey.Index != nil {

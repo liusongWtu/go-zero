@@ -9,10 +9,12 @@ import (
 const (
 	category = "vue"
 
-	requestApiTemplateFile     = "request_api.tpl"
-	fieldTsTemplateFile        = "field.tpl"
-	storePiniaTemplateFile     = "store_pinia.tpl"
-	editorIndexVueTemplateFile = "editor_index_vue.tpl"
+	requestApiTemplateFile       = "request_api.tpl"
+	fieldTsTemplateFile          = "field.tpl"
+	storePiniaTemplateFile       = "store_pinia.tpl"
+	editorIndexVueTemplateFile   = "editor_index_vue.tpl"
+	localesItemFieldTemplateFile = "locales_item_field.tpl"
+	localesTemplateFile          = "locales.tpl"
 )
 
 var templates = map[string]string{}
