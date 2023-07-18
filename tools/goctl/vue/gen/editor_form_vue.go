@@ -11,9 +11,9 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/vue/template"
 )
 
-// genEditorIndexVue 生成/editor/index.vue文件
-func (g *defaultGenerator) genEditorIndexVue(in parser.Table) (codeFile, error) {
-	text, err := pathx.LoadTemplate(category, editorIndexVueTemplateFile, template.EditorIndexVue)
+// genEditorFormVue 生成/editor/form/form.vue文件
+func (g *defaultGenerator) genEditorFormVue(in parser.Table) (codeFile, error) {
+	text, err := pathx.LoadTemplate(category, editorFormVueTemplateFile, template.EditorFormVue)
 	if err != nil {
 		return codeFile{}, err
 	}
@@ -31,7 +31,7 @@ func (g *defaultGenerator) genEditorIndexVue(in parser.Table) (codeFile, error) 
 	table.ContainsUniqueCacheKey = len(uniqueKey) > 0
 	table.ignoreColumns = g.ignoreColumns
 
-	fieldCode, err := genFields(table, in.Fields)
+	fieldCode, err := genEditorForeVueItemFields(table, in.Fields)
 	if err != nil {
 		return codeFile{}, err
 	}
@@ -44,14 +44,14 @@ func (g *defaultGenerator) genEditorIndexVue(in parser.Table) (codeFile, error) 
 		"upperStartCamelObject": in.Name.ToCamel(),
 		"lowerStartCamelObject": stringx.From(in.Name.ToCamel()).Untitle(),
 		"kebabObject":           in.Name.ToKebab(),
-		"fields":                fieldCode,
+		"editorFormVueFields":   fieldCode,
 	})
 	if err != nil {
 		return codeFile{}, err
 	}
 
 	return codeFile{
-		filename: "src/views/" + strings.ReplaceAll(in.Name.Lower(), "_", "") + "/editor/index.vue",
+		filename: "src/views/" + strings.ReplaceAll(in.Name.Lower(), "_", "") + "/editor/form/form.vue",
 		content:  output.String(),
 	}, nil
 }

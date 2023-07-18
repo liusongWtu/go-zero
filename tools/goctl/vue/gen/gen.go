@@ -142,11 +142,18 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 			return err
 		}
 
+		editorFormVueCode, err := g.genEditorFormVue(*table)
+		if err != nil {
+			return err
+		}
+
 		m[table.Name.Source()] = &codeTuple{
-			codes: []codeFile{requestApiCode,
+			codes: []codeFile{
+				requestApiCode,
 				storePiniaCode,
 				editorIndexVueCode,
 				localesCode,
+				editorFormVueCode,
 			}}
 	}
 

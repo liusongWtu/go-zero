@@ -25,11 +25,6 @@ func genLocalesItemFields(table Table, fields []*parser.Field) (string, error) {
 }
 
 func genLocalesItemField(table Table, field *parser.Field) (string, error) {
-	// tag, err := genTag(table, field.NameOriginal)
-	// if err != nil {
-	// 	return "", err
-	// }
-
 	text, err := pathx.LoadTemplate(category, localesItemFieldTemplateFile, template.LocalesItemField)
 	if err != nil {
 		return "", err

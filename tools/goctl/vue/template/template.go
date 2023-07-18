@@ -26,3 +26,9 @@ var LocalesItemField string
 
 //go:embed tpl/locales.tpl
 var Locales string
+
+//go:embed tpl/editor_form_vue_field.tpl
+var EditorFormVueField string
+
+//go:embed tpl/editor_form_vue.tpl
+var EditorFormVue string
