@@ -11,9 +11,9 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/vue/template"
 )
 
-// genEditorIndexVue 生成/editor/index.vue文件
-func (g *defaultGenerator) genEditorIndexVue(in parser.Table) (codeFile, error) {
-	text, err := pathx.LoadTemplate(category, editorIndexVueTemplateFile, template.EditorIndexVue)
+// genSearchFormRules 生成/search/formRules.vue文件
+func (g *defaultGenerator) genSearchFormRules(in parser.Table) (codeFile, error) {
+	text, err := pathx.LoadTemplate(category, searchFormRulesTemplateFile, template.SearchFormRules)
 	if err != nil {
 		return codeFile{}, err
 	}
@@ -31,12 +31,12 @@ func (g *defaultGenerator) genEditorIndexVue(in parser.Table) (codeFile, error) 
 	table.ContainsUniqueCacheKey = len(uniqueKey) > 0
 	table.ignoreColumns = g.ignoreColumns
 
-	fieldCode, err := genFields(table, in.Fields)
-	if err != nil {
-		return codeFile{}, err
-	}
+	// fieldCode, err := genEditorForeItemFields(table, in.Fields)
+	// if err != nil {
+	// 	return codeFile{}, err
+	// }
 
-	t := util.With("editor-index").
+	t := util.With("search-form-hooks").
 		Parse(text).
 		GoFmt(false)
 	output, err := t.Execute(map[string]any{
@@ -44,14 +44,14 @@ func (g *defaultGenerator) genEditorIndexVue(in parser.Table) (codeFile, error) 
 		"upperStartCamelObject": in.Name.ToCamel(),
 		"lowerStartCamelObject": stringx.From(in.Name.ToCamel()).Untitle(),
 		"kebabObject":           in.Name.ToKebab(),
-		"fields":                fieldCode,
+		// "editorFormVueFields":   fieldCode,
 	})
 	if err != nil {
 		return codeFile{}, err
 	}
 
 	return codeFile{
-		filename: "src/views/" + strings.ReplaceAll(in.Name.Lower(), "_", "") + "/editor/index.vue",
+		filename: "src/views/" + strings.ReplaceAll(in.Name.Lower(), "_", "") + "/search/formRules.ts",
 		content:  output.String(),
 	}, nil
 }

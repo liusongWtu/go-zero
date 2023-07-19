@@ -9,14 +9,22 @@ import (
 const (
 	category = "vue"
 
-	requestApiTemplateFile         = "request_api.tpl"
-	fieldTsTemplateFile            = "field.tpl"
-	storePiniaTemplateFile         = "store_pinia.tpl"
-	editorIndexVueTemplateFile     = "editor_index_vue.tpl"
-	localesItemFieldTemplateFile   = "locales_item_field.tpl"
-	localesTemplateFile            = "locales.tpl"
-	editorFormVueFieldTemplateFile = "editor_form_vue_field.tpl"
-	editorFormVueTemplateFile      = "editor_form_vue.tpl"
+	requestApiTemplateFile       = "request_api.tpl"
+	fieldTsTemplateFile          = "field.tpl"
+	storePiniaTemplateFile       = "store_pinia.tpl"
+	localesItemFieldTemplateFile = "locales_item_field.tpl"
+	localesTemplateFile          = "locales.tpl"
+	editorIndexTemplateFile      = "editor_index.tpl"
+	editorFormFieldTemplateFile  = "editor_form_field.tpl"
+	editorFormTemplateFile       = "editor_form.tpl"
+	editorFormHooksTemplateFile  = "editor_form_hooks.tpl"
+	editorFormRulesTemplateFile  = "editor_form_rules.tpl"
+	editorFormIndexTemplateFile  = "editor_form_index.tpl"
+	searchFormTemplateFile       = "search_form.tpl"
+	searchFormDataTemplateFile   = "search_form_data.tpl"
+	searchFormHooksTemplateFile  = "search_form_hooks.tpl"
+	searchFormRulesTemplateFile  = "search_form_rules.tpl"
+	indexTemplateFile            = "index.tpl"
 )
 
 var templates = map[string]string{}

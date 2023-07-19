@@ -132,17 +132,60 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 			return err
 		}
 
-		editorIndexVueCode, err := g.genEditorIndexVue(*table)
-		if err != nil {
-			return err
-		}
-
 		localesCode, err := g.genLocales(*table)
 		if err != nil {
 			return err
 		}
 
-		editorFormVueCode, err := g.genEditorFormVue(*table)
+		//editor
+		editorIndexVueCode, err := g.genEditorIndexVue(*table)
+		if err != nil {
+			return err
+		}
+
+		editorFormVueCode, err := g.genEditorForm(*table)
+		if err != nil {
+			return err
+		}
+
+		editorFormHooksCode, err := g.genEditorFormHooks(*table)
+		if err != nil {
+			return err
+		}
+
+		editorFormRulesCode, err := g.genEditorFormRules(*table)
+		if err != nil {
+			return err
+		}
+
+		editorFormIndexCode, err := g.genEditorFormIndex(*table)
+		if err != nil {
+			return err
+		}
+
+		//search
+		searchFormCode, err := g.genSearchForm(*table)
+		if err != nil {
+			return err
+		}
+
+		searchFormDataCode, err := g.genSearchFormData(*table)
+		if err != nil {
+			return err
+		}
+
+		searchFormHooksCode, err := g.genSearchFormHooks(*table)
+		if err != nil {
+			return err
+		}
+
+		searchFormRulesCode, err := g.genSearchFormRules(*table)
+		if err != nil {
+			return err
+		}
+
+		//index
+		indexCode, err := g.genIndex(*table)
 		if err != nil {
 			return err
 		}
@@ -154,6 +197,14 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 				editorIndexVueCode,
 				localesCode,
 				editorFormVueCode,
+				editorFormHooksCode,
+				editorFormRulesCode,
+				editorFormIndexCode,
+				searchFormCode,
+				searchFormDataCode,
+				searchFormHooksCode,
+				searchFormRulesCode,
+				indexCode,
 			}}
 	}
 

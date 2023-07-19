@@ -10,11 +10,11 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/vue/template"
 )
 
-func genEditorForeVueItemFields(table Table, fields []*parser.Field) (string, error) {
+func genEditorForeItemFields(table Table, fields []*parser.Field) (string, error) {
 	var list []string
 
 	for _, field := range fields {
-		result, err := genEditorForeVueItemField(table, field)
+		result, err := genEditorForeItemField(table, field)
 		if err != nil {
 			return "", err
 		}
@@ -25,8 +25,8 @@ func genEditorForeVueItemFields(table Table, fields []*parser.Field) (string, er
 	return strings.Join(list, "\n"), nil
 }
 
-func genEditorForeVueItemField(table Table, field *parser.Field) (string, error) {
-	text, err := pathx.LoadTemplate(category, editorFormVueFieldTemplateFile, template.EditorFormVueField)
+func genEditorForeItemField(table Table, field *parser.Field) (string, error) {
+	text, err := pathx.LoadTemplate(category, editorFormFieldTemplateFile, template.EditorFormField)
 	if err != nil {
 		return "", err
 	}
