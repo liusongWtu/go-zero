@@ -1,0 +1,1 @@
+            {{.name}}: {{.lowerStartCamelObject}}.{{.name}},

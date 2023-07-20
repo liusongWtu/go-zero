@@ -1,10 +1,10 @@
 <template>
-    <div class="{{.kebabObject}}-manager-page">
+    <div class="ad-platform-account-manager-page">
         <search @search="onRefreshData" />
-        <pure-table-bar :title="{{ printf "$t('%s.%sList')" .lowerStartCamelObject .lowerStartCamelObject}}" :columns="columns" @refresh="onRefreshData">
+        <pure-table-bar :title="$t('adPlatformAccount.adPlatformAccountList')" :columns="columns" @refresh="onRefreshData">
             <template #buttons>
-                <el-button type="primary" :icon="useRenderIcon(AddFill)" @click="onCreate{{.upperStartCamelObject}}">
-                    {{"{{"}} $t('{{.lowerStartCamelObject}}.create{{.upperStartCamelObject}}')  {{"}}"}}
+                <el-button type="primary" :icon="useRenderIcon(AddFill)" @click="onCreateAdPlatformAccount">
+                    {{ $t('adPlatformAccount.createAdPlatformAccount')  }}
                 </el-button>
             </template>
             <template v-slot="{ size, dynamicColumns }">
@@ -34,14 +34,14 @@
                             type="primary"
                             :size="size"
                             :icon="useRenderIcon(EditPen)"
-                            @click="onEdit{{.upperStartCamelObject}}(row)"
+                            @click="onEditAdPlatformAccount(row)"
                         >
-                             {{"{{"}} $t('common.edit')  {{"}}"}}
+                             {{ $t('common.edit')  }}
                         </el-button>
 
                         <el-popconfirm
                             :title="$t('common.deleteItemConfirm', { content: row.name })"
-                            @confirm="onDelete{{.upperStartCamelObject}}(row)"
+                            @confirm="onDeleteAdPlatformAccount(row)"
                         >
                             <template #reference>
                                 <el-button
@@ -51,7 +51,7 @@
                                     :size="size"
                                     :icon="useRenderIcon(Delete)"
                                 >
-                                     {{"{{"}} $t('common.delete')  {{"}}"}}
+                                     {{ $t('common.delete')  }}
                                 </el-button>
                             </template>
                         </el-popconfirm>
@@ -74,7 +74,7 @@
 
     import { useList } from './listHook';
 
-    defineOptions({ name: '{{.upperStartCamelObject}}Manager' });
+    defineOptions({ name: 'AdPlatformAccountManager' });
 
     const {
         columns,
@@ -83,9 +83,9 @@
         sortBy,
         list,
         onRefreshData,
-        onCreate{{.upperStartCamelObject}},
-        onEdit{{.upperStartCamelObject}},
-        onDelete{{.upperStartCamelObject}},
+        onCreateAdPlatformAccount,
+        onEditAdPlatformAccount,
+        onDeleteAdPlatformAccount,
         onChangePageSize,
         onChangeCurrentPage,
         onSortChange
@@ -93,7 +93,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .{{.kebabObject}}-manager-page {
+    .ad-platform-account-manager-page {
         :deep(.el-table__row .cell) {
             margin: auto;
             text-align: center;

@@ -30,7 +30,7 @@ func (g *defaultGenerator) genStorePinia(in parser.Table) (codeFile, error) {
 	table.ContainsUniqueCacheKey = len(uniqueKey) > 0
 	table.ignoreColumns = g.ignoreColumns
 
-	fieldCode, err := genFields(table, in.Fields)
+	fieldCode, err := genRequestApiFields(table, in.Fields)
 	if err != nil {
 		return codeFile{}, err
 	}

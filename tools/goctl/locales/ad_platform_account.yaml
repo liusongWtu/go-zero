@@ -1,0 +1,24 @@
+adPlatformAccount:
+  createAdPlatformAccount: 创建广告平台账号表
+  editAdPlatformAccount: 编辑广告平台账号表
+  editAdPlatformAccountById: 编辑广告平台账号表 - {id}
+  adPlatformAccountList: 广告平台账号表列表
+  itemFields:
+    id: id 
+    code:  平台账号code 
+    name:  平台账号名称 
+    platform_code:  广告平台code 
+    platform_title:  广告平台title 
+    data:  配置信息 
+    status:  状态，1=正常，2=冻结 
+    create_time:  创建时间秒 
+    update_time:  修改时间秒 
+  adPlatformAccountEditor:
+    nameReg: 必须输入名称
+    remarkReg: 请输入备注
+    statusReg: 必须选择状态
+  search:
+    dateRange: 日期范围
+    placeholderId: id, id, id, ...
+    placeholderName: 搜索名称
+    idsRuleReg: Id 列表的格式应该为 id, id, id, ...

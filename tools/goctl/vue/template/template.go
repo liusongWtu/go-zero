@@ -4,16 +4,11 @@ import (
 	_ "embed"
 )
 
-// Field defines a filed template for types
-//
-//go:embed tpl/field.tpl
-var Field string
-
 //go:embed tpl/request_api.tpl
 var RequestApi string
 
-//go:embed tpl/field.tpl
-var FieldTs string
+//go:embed tpl/request_api_field.tpl
+var RequestApiField string
 
 //go:embed tpl/store_pinia.tpl
 var StorePinia string
@@ -56,3 +51,9 @@ var SearchFormRules string
 
 //go:embed tpl/index.tpl
 var Index string
+
+//go:embed tpl/list_hooks_table_field.tpl
+var ListHooksTableField string
+
+//go:embed tpl/request_table_field_assign.tpl
+var RequestTableFieldAssign string

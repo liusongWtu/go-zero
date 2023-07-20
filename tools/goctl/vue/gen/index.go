@@ -36,7 +36,7 @@ func (g *defaultGenerator) genIndex(in parser.Table) (codeFile, error) {
 	// 	return codeFile{}, err
 	// }
 
-	t := util.With("search-form").
+	t := util.With("index").
 		Parse(text).
 		GoFmt(false)
 	output, err := t.Execute(map[string]any{

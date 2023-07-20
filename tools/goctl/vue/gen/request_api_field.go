@@ -10,11 +10,11 @@ import (
 	"github.com/zeromicro/go-zero/tools/goctl/vue/template"
 )
 
-func genFields(table Table, fields []*parser.Field) (string, error) {
+func genRequestApiFields(table Table, fields []*parser.Field) (string, error) {
 	var list []string
 
 	for _, field := range fields {
-		result, err := genField(table, field)
+		result, err := genRequestApiField(table, field)
 		if err != nil {
 			return "", err
 		}
@@ -25,13 +25,13 @@ func genFields(table Table, fields []*parser.Field) (string, error) {
 	return strings.Join(list, "\n"), nil
 }
 
-func genField(table Table, field *parser.Field) (string, error) {
+func genRequestApiField(table Table, field *parser.Field) (string, error) {
 	// tag, err := genTag(table, field.NameOriginal)
 	// if err != nil {
 	// 	return "", err
 	// }
 
-	text, err := pathx.LoadTemplate(category, fieldTsTemplateFile, template.FieldTs)
+	text, err := pathx.LoadTemplate(category, requestApiFieldTemplateFile, template.RequestApiField)
 	if err != nil {
 		return "", err
 	}
