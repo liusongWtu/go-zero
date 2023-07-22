@@ -1,7 +1,11 @@
-import { ref, watch, type Ref } from 'vue';
+import { ref, watch, createVNode, type Ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { type FormInstance, type FormItemProp, type FormValidateCallback } from 'element-plus';
+import { ElScrollbar, type FormInstance, type FormItemProp, type FormValidateCallback } from 'element-plus';
+
+import { JsonCodeMirror } from '@/components/JsonCodeMirror';
+import { addDialog } from '@/components/ReDialog';
+import { CustomDialogHF } from '@/common/CustomDialogHF';
 
 import equals from 'ramda/es/equals';
 
@@ -10,15 +14,15 @@ import { type AdPlatformAccountItem } from '@/api/ad-platform-account';
 
 export interface AdPlatformAccountEditorFormProps {
     mode: 'page' | 'dialog';
+    hasSubmitButton?: boolean;
     isEdit: boolean;
-    info: AdPlatformAccountItem;
+    adPlatformAccount: AdPlatformAccountItem;
 }
 
 export function useForm(refForm: Ref<FormInstance>, props: AdPlatformAccountEditorFormProps, emit: (evt: 'submit') => void) {
     const { t } = useI18n();
 
-    const formData = ref<AdPlatformAccountItem>(props.info);
-
+    const formData = ref<AdPlatformAccountItem>(props.adPlatformAccount);
 
 
     const onChangeStatus = (_val: CommonStatus): void => {
@@ -36,7 +40,7 @@ export function useForm(refForm: Ref<FormInstance>, props: AdPlatformAccountEdit
     };
 
     watch(
-        () => props.info,
+        () => props.adPlatformAccount,
         value => {
             if (!equals(value, formData.value)) {
                 formData.value = value;

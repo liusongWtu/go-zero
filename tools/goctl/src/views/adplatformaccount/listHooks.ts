@@ -17,7 +17,7 @@ import { type PaginationProps } from '@pureadmin/table';
 import { JsonCodeMirror } from '@/components/JsonCodeMirror';
 import { addDialog } from '@/components/ReDialog';
 import { CustomDialogHF } from '@/common/CustomDialogHF';
-import { {{.upperStartCamelObject}}EditorForm, type {{.upperStartCamelObject}}EditorFormInstance } from './editor/form';
+import { AdPlatformAccountEditorForm, type AdPlatformAccountEditorFormInstance } from './editor/form';
 
 import {
     createNormalFormatter,
@@ -29,15 +29,15 @@ import {
 import clone from 'ramda/es/clone';
 
 import {
-    fetchCreate{{.upperStartCamelObject}},
-    fetchUpdate{{.upperStartCamelObject}},
-    fetchDelete{{.upperStartCamelObject}},
+    fetchCreateAdPlatformAccount,
+    fetchUpdateAdPlatformAccount,
+    fetchDeleteAdPlatformAccount,
     fetchList,
-    type {{.upperStartCamelObject}}Item,
+    type AdPlatformAccountItem,
     type ListReq,
     type DeleteReq
-} from '@/api/{{.kebabObject}}';
-import { usePageOptionsStoreHook, searchOptions2ListReq } from '@/store/modules/{{.lowerStartCamelObject}}PageOpts';
+} from '@/api/ad-platform-account';
+import { usePageOptionsStoreHook, searchOptions2ListReq } from '@/store/modules/adPlatformAccountPageOpts';
 
 import { useMultiTagsStoreHook } from '@/store/modules/multiTags';
 
@@ -56,7 +56,7 @@ export function useList() {
 
     const statusRender = createCommonStatusRender({
         fieldName: 'status',
-        fetchUpdate: fetchUpdate{{.upperStartCamelObject}},
+        fetchUpdate: fetchUpdateAdPlatformAccount,
         getUpdateParams: row => ({
             id: row.id,
             name: row.name,
@@ -69,7 +69,69 @@ export function useList() {
     });
 
     const columns: TableColumnList = [
-        {{.tableListFields}} 
+                {
+            label: $t('adPlatformAccount.itemFields.id'),
+            prop: 'id',
+            minWidth: 100,
+            renderHeader,
+            formatter: createNormalFormatter('id')
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.code'),
+            prop: 'code',
+            minWidth: 100,
+            renderHeader,
+            formatter: createNormalFormatter('code')
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.name'),
+            prop: 'name',
+            minWidth: 100,
+            renderHeader,
+            formatter: createNormalFormatter('name')
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.platform_code'),
+            prop: 'platform_code',
+            minWidth: 100,
+            renderHeader,
+            formatter: createNormalFormatter('platform_code')
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.platform_title'),
+            prop: 'platform_title',
+            minWidth: 100,
+            renderHeader,
+            formatter: createNormalFormatter('platform_title')
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.data'),
+            prop: 'data',
+            minWidth: 100,
+            renderHeader,
+            formatter: createNormalFormatter('data')
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.status'),
+            prop: 'status',
+            minWidth: 130,
+            renderHeader,
+            cellRenderer: statusRender
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.create_time'),
+            prop: 'create_time',
+            minWidth: 180,
+            renderHeader,
+            cellRenderer: createTimestampRender('create_time')
+        },
+        {
+            label: $t('adPlatformAccount.itemFields.update_time'),
+            prop: 'update_time',
+            minWidth: 180,
+            renderHeader,
+            cellRenderer: createTimestampRender('update_time')
+        }, 
         {
             label: $t('common.actions'),
             width: 160,
@@ -79,24 +141,24 @@ export function useList() {
         }
     ];
 
-    const {{.lowerStartCamelObject}}PageOptsStore = usePageOptionsStoreHook();
+    const adPlatformAccountPageOptsStore = usePageOptionsStoreHook();
 
     const controller = new AbortController();
 
     const loading = ref(false);
-    const list = ref<Array<{{.upperStartCamelObject}}Item>>([]);
+    const list = ref<Array<AdPlatformAccountItem>>([]);
 
     const pagination = reactive<PaginationProps>({
         total: 0,
-        pageSize: {{.lowerStartCamelObject}}PageOptsStore.pageSize,
-        currentPage: {{.lowerStartCamelObject}}PageOptsStore.currentPage,
+        pageSize: adPlatformAccountPageOptsStore.pageSize,
+        currentPage: adPlatformAccountPageOptsStore.currentPage,
         background: true,
         pageSizes: [5, 10, 15, 20, 50, 100, 10000, 100000]
     });
 
-    const sortBy = ref({{.lowerStartCamelObject}}PageOptsStore.sortBy);
+    const sortBy = ref(adPlatformAccountPageOptsStore.sortBy);
 
-    const searchOptions = computed(() => {{.lowerStartCamelObject}}PageOptsStore.searchOpts);
+    const searchOptions = computed(() => adPlatformAccountPageOptsStore.searchOpts);
 
     const convertSortBy = () => {
         if (sortBy.value?.prop && sortBy.value?.order) {
@@ -124,10 +186,10 @@ export function useList() {
                 loading.value = false;
                 list.value = res?.data?.list ?? [];
                 pagination.total = res?.data?.total ?? 0;
-                {{.lowerStartCamelObject}}PageOptsStore.updateCurrentPage(pagination.currentPage);
-                {{.lowerStartCamelObject}}PageOptsStore.updatePageSize(pagination.pageSize);
-                {{.lowerStartCamelObject}}PageOptsStore.updateSortBy(sortBy.value);
-                {{.lowerStartCamelObject}}PageOptsStore.recordState();
+                adPlatformAccountPageOptsStore.updateCurrentPage(pagination.currentPage);
+                adPlatformAccountPageOptsStore.updatePageSize(pagination.pageSize);
+                adPlatformAccountPageOptsStore.updateSortBy(sortBy.value);
+                adPlatformAccountPageOptsStore.recordState();
             },
             err => {
                 loading.value = false;
@@ -142,25 +204,25 @@ export function useList() {
 
     const vLoading = resolveDirective('loading');
 
-    const refCreatorForm = ref<{{.upperStartCamelObject}}EditorFormInstance>(null);
+    const refCreatorForm = ref<AdPlatformAccountEditorFormInstance>(null);
     const refCreatorFormMode = ref<string>('dialog');
-    const default{{.upperStartCamelObject}}Item = (): {{.upperStartCamelObject}}Item => ({ status: CommonStatusActivate });
-    const creatorFormData = ref<{{.upperStartCamelObject}}Item>(default{{.upperStartCamelObject}}Item());
+    const defaultAdPlatformAccountItem = (): AdPlatformAccountItem => ({ status: CommonStatusActivate });
+    const creatorFormData = ref<AdPlatformAccountItem>(defaultAdPlatformAccountItem());
     const creatorSubmitting = ref<boolean>(false);
-    const onCreate{{.upperStartCamelObject}} = () => {
+    const onCreateAdPlatformAccount = () => {
         addDialog({
             draggable: true,
             normalClass: 'no-padding-body-dlg !w-[95%] !max-w-[550px]',
             fullscreenClass: 'no-padding-body-dlg',
-            ...CustomDialogHF(t('{{.lowerStartCamelObject}}.create{{.upperStartCamelObject}}'), { hasFullScreen: true }),
+            ...CustomDialogHF(t('adPlatformAccount.createAdPlatformAccount'), { hasFullScreen: true }),
             fullScreenCallBack: ({ fullscreen }) => (refCreatorFormMode.value = fullscreen ? 'page' : 'dialog'),
             contentRenderer: () =>
                 withDirectives(
-                    createVNode({{.upperStartCamelObject}}EditorForm, {
+                    createVNode(AdPlatformAccountEditorForm, {
                         ref: refCreatorForm,
                         isEdit: false,
                         mode: refCreatorFormMode.value,
-                        {{.lowerStartCamelObject}}: creatorFormData.value
+                        adPlatformAccount: creatorFormData.value
                     }),
                     [[vLoading, creatorSubmitting.value]]
                 ),
@@ -168,27 +230,35 @@ export function useList() {
                 refCreatorForm.value?.validate((valid, _fields) => {
                     if (valid) {
                         if (creatorSubmitting.value) return;
-                        doCreate{{.upperStartCamelObject}}(clone(toRaw(creatorFormData.value)), done);
+                        doCreateAdPlatformAccount(clone(toRaw(creatorFormData.value)), done);
                     }
                 });
             },
             closeCallBack: () => {
-                creatorFormData.value = default{{.upperStartCamelObject}}Item();
+                creatorFormData.value = defaultAdPlatformAccountItem();
             }
         });
     };
-    const doCreate{{.upperStartCamelObject}} = ({{.lowerStartCamelObject}}: {{.upperStartCamelObject}}Item, done: Function) => {
+    const doCreateAdPlatformAccount = (adPlatformAccount: AdPlatformAccountItem, done: Function) => {
         creatorSubmitting.value = true;
         const data = {
-{{.requestTableField}}
+            id: adPlatformAccount.id,
+            code: adPlatformAccount.code,
+            name: adPlatformAccount.name,
+            platform_code: adPlatformAccount.platform_code,
+            platform_title: adPlatformAccount.platform_title,
+            data: adPlatformAccount.data,
+            status: adPlatformAccount.status,
+            create_time: adPlatformAccount.create_time,
+            update_time: adPlatformAccount.update_time,
         };
-        fetchCreate{{.upperStartCamelObject}}({ data }).then(
+        fetchCreateAdPlatformAccount({ data }).then(
             () => {
                 creatorSubmitting.value = false;
                 message(
                     t('common.changeStatusMessage', {
                         action: t('common.create'),
-                        content: {{.lowerStartCamelObject}}.name
+                        content: adPlatformAccount.name
                     }),
                     { type: 'success' }
                 );
@@ -200,7 +270,7 @@ export function useList() {
                 message(
                     t('common.changeStatusFailed', {
                         action: t('common.create'),
-                        content: {{.lowerStartCamelObject}}.name,
+                        content: adPlatformAccount.name,
                         msg: err
                     }),
                     { type: 'error' }
@@ -210,22 +280,22 @@ export function useList() {
     };
 
     const router = useRouter();
-    const onEdit{{.upperStartCamelObject}} = ({{.lowerStartCamelObject}}: {{.upperStartCamelObject}}Item) => {
-        const parameter: RouteParamsRaw = { id: `{{"${"}}{{.lowerStartCamelObject}}.id}` };
+    const onEditAdPlatformAccount = (adPlatformAccount: AdPlatformAccountItem) => {
+        const parameter: RouteParamsRaw = { id: `${adPlatformAccount.id}` };
         useMultiTagsStoreHook().handleTags('push', {
-            path: '/config/{{.lowerObject}}/item/:id',
-            name: '{{.upperStartCamelObject}}Editor',
+            path: '/config/adplatformaccount/item/:id',
+            name: 'AdPlatformAccountEditor',
             params: parameter,
             meta: {
-                title: t('{{.lowerStartCamelObject}}.edit{{.upperStartCamelObject}}ById', { id: {{.lowerStartCamelObject}}.id }),
+                title: t('adPlatformAccount.editAdPlatformAccountById', { id: adPlatformAccount.id }),
                 keepAlive: true
             }
         });
-        router.push({ name: '{{.upperStartCamelObject}}Editor', params: parameter });
+        router.push({ name: 'AdPlatformAccountEditor', params: parameter });
     };
 
-    const { onDeleteItem: onDelete{{.upperStartCamelObject}} } = useDeleteItemHook<{{.upperStartCamelObject}}Item, DeleteReq>({
-        fetchDelete: fetchDelete{{.upperStartCamelObject}},
+    const { onDeleteItem: onDeleteAdPlatformAccount } = useDeleteItemHook<AdPlatformAccountItem, DeleteReq>({
+        fetchDelete: fetchDeleteAdPlatformAccount,
         getDeleteParams: item => ({ ids: [item.id] }),
         getKey: item => item.id,
         getName: item => item.name,
@@ -263,9 +333,9 @@ export function useList() {
         sortBy,
         list,
         onRefreshData,
-        onCreate{{.upperStartCamelObject}},
-        onEdit{{.upperStartCamelObject}},
-        onDelete{{.upperStartCamelObject}},
+        onCreateAdPlatformAccount,
+        onEditAdPlatformAccount,
+        onDeleteAdPlatformAccount,
         onChangePageSize,
         onChangeCurrentPage,
         onSortChange

@@ -57,3 +57,6 @@ var ListHooksTableField string
 
 //go:embed tpl/request_table_field_assign.tpl
 var RequestTableFieldAssign string
+
+//go:embed tpl/list_hooks.tpl
+var ListHooks string

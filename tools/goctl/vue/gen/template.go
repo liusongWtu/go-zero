@@ -27,6 +27,7 @@ const (
 	indexTemplateFile                   = "index.tpl"
 	listHooksTableFieldTemplateFile     = "list_hooks_table_field.tpl"
 	requestTableFieldAssignTemplateFile = "request_table_field_assign.tpl"
+	listHooksTemplateFile               = "list_hooks.tpl"
 )
 
 var templates = map[string]string{}

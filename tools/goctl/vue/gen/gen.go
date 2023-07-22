@@ -190,6 +190,11 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 			return err
 		}
 
+		listHooksCode, err := g.genListHooks(*table)
+		if err != nil {
+			return err
+		}
+
 		m[table.Name.Source()] = &codeTuple{
 			codes: []codeFile{
 				requestApiCode,
@@ -205,6 +210,7 @@ func (g *defaultGenerator) StartFromInformationSchema(tables map[string]*model.T
 				searchFormHooksCode,
 				searchFormRulesCode,
 				indexCode,
+				listHooksCode,
 			}}
 	}
 
