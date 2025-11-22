@@ -50,6 +50,24 @@ func genInsert(table Table, withCache, postgreSql bool) (string, string, error) 
 		expressionValues = append(expressionValues, "data."+camel)
 	}
 
+	//--ls--
+	var hasCreateTime bool
+	for _, field := range table.Fields {
+		if field.Name.ToCamel() == "CreateTime" {
+			hasCreateTime = true
+			break
+		}
+	}
+
+	var hasUpdateTime bool
+	for _, field := range table.Fields {
+		if field.Name.ToCamel() == "UpdateTime" {
+			hasUpdateTime = true
+			break
+		}
+	}
+	//--ls--
+
 	camel := table.Name.ToCamel()
 	text, err := pathx.LoadTemplate(category, insertTemplateFile, template.Insert)
 	if err != nil {
@@ -66,6 +84,8 @@ func genInsert(table Table, withCache, postgreSql bool) (string, string, error) 
 			"expressionValues":      strings.Join(expressionValues, ", "),
 			"keys":                  strings.Join(keys, "\n"),
 			"keyValues":             strings.Join(keyVars, ", "),
+			"hasCreateTime":         hasCreateTime, //--ls--
+			"hasUpdateTime":         hasUpdateTime, //--ls--
 			"data":                  table,
 		})
 	if err != nil {
