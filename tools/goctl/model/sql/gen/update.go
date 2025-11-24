@@ -61,6 +61,16 @@ func genUpdate(table Table, withCache, postgreSql bool) (
 		return "", "", err
 	}
 
+	//--ls--
+	var hasUpdateTime bool
+	for _, field := range table.Fields {
+		if field.Name.ToCamel() == "UpdateTime" {
+			hasUpdateTime = true
+			break
+		}
+	}
+	//--ls--
+
 	output, err := util.With("update").Parse(text).Execute(
 		map[string]any{
 			"withCache":             withCache,
@@ -80,8 +90,9 @@ func genUpdate(table Table, withCache, postgreSql bool) (
 			"expressionValues": strings.Join(
 				expressionValues, ", ",
 			),
-			"postgreSql": postgreSql,
-			"data":       table,
+			"postgreSql":    postgreSql,
+			"hasUpdateTime": hasUpdateTime,
+			"data":          table,
 		},
 	)
 	if err != nil {
